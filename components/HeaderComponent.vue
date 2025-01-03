@@ -194,18 +194,25 @@ watch(
   { immediate: true }
 );
 </script>
-
 <style lang="scss" scoped>
+// -----------------------------
+// Header Layout
+// -----------------------------
 .header-container {
   position: relative;
+
   .subheading-text {
     color: $white-text-color;
+
     @include respond-to($breakpoint-md) {
       font-size: 14px;
     }
   }
 }
 
+// -----------------------------
+// Navigation Menu
+// -----------------------------
 .menu-section {
   @extend %sideWidth;
   padding: 2rem 0;
@@ -218,14 +225,16 @@ watch(
   .right-section-menu {
     display: flex;
     align-items: center;
-  }
-  @include respond-to($breakpoint-md) {
-    .right-section-menu {
+
+    @include respond-to($breakpoint-md) {
       display: none !important;
     }
   }
 }
 
+// -----------------------------
+// Main Content Layout
+// -----------------------------
 .main-row {
   position: relative;
 
@@ -235,54 +244,33 @@ watch(
     .content-section {
       padding: 2rem;
     }
-
-    .right-section {
-      position: relative !important;
-      right: 0 !important;
-      bottom: 10% !important;
-      height: auto !important;
-      margin-top: 0rem;
-
-      &::after {
-        // position: relative !important;
-        height: 400px !important;
-        left: 20%;
-        width: 260px;
-        left: 20%;
-        bottom: -15%;
-      }
-
-      .student-learn-box,
-      .our-happy-students-box {
-        position: relative !important;
-        width: fit-content !important;
-        margin: 1rem auto !important;
-        left: -30% !important;
-        p {
-          font-size: 10px;
-        }
-      }
-      .our-happy-students-box {
-        margin-top: 4rem !important;
-      }
-      .flight-book-icon {
-        right: 10%;
-      }
-      .imgs-section {
-        img {
-          width: 19.27px;
-        }
-      }
-    }
   }
 }
 
+// -----------------------------
+// Right Section Styling
+// -----------------------------
 .right-section {
   position: absolute;
   right: -15%;
   bottom: -34%;
   height: 100%;
 
+  // Background image of the person
+  &::after {
+    content: "";
+    background-image: url("/_nuxt/assets/images/header-man.png");
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 130%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    z-index: -1;
+  }
+
+  // Student Learn Box
   .student-learn-box {
     @extend %headerBoxes;
     width: fit-content;
@@ -302,12 +290,14 @@ watch(
     }
   }
 
+  // Flight Book Icon
   .flight-book-icon {
     position: absolute;
     right: 25%;
     top: 15%;
   }
 
+  // Happy Students Box
   .our-happy-students-box {
     @extend %headerBoxes;
     width: fit-content;
@@ -327,21 +317,58 @@ watch(
       display: block;
     }
   }
+}
 
-  &::after {
-    content: "";
-    background-image: url("/_nuxt/assets/images/header-man.png");
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 130%;
-    background-size: contain;
-    background-repeat: no-repeat;
-    z-index: -1;
+// -----------------------------
+// Responsive Right Section
+// -----------------------------
+@include respond-to($breakpoint-md) {
+  .right-section {
+    position: relative !important;
+    right: 0 !important;
+    bottom: 10% !important;
+    height: auto !important;
+    margin-top: 0rem;
+
+    &::after {
+      height: 400px !important;
+      width: 260px;
+      left: 20%;
+      bottom: -15%;
+    }
+
+    // Responsive boxes
+    .student-learn-box,
+    .our-happy-students-box {
+      position: relative !important;
+      width: fit-content !important;
+      margin: 1rem auto !important;
+      left: -30% !important;
+
+      p {
+        font-size: 10px;
+      }
+    }
+
+    .our-happy-students-box {
+      margin-top: 4rem !important;
+    }
+
+    .flight-book-icon {
+      right: 10%;
+    }
+
+    .imgs-section {
+      img {
+        width: 19.27px;
+      }
+    }
   }
 }
 
+// -----------------------------
+// Background Styles
+// -----------------------------
 .primary-bg {
   background-image: url("@/assets/images/background.png");
   background-size: 100% 100%;
@@ -353,9 +380,15 @@ watch(
   background-size: 100% 100%;
   background-repeat: no-repeat;
   background-position: bottom left;
+
+  @include respond-to($breakpoint-md) {
+    background-image: url("/assets/images/mobiel-header-bg.svg");
+  }
 }
 
-// Existing styles maintained
+// -----------------------------
+// Typography
+// -----------------------------
 .heading-text {
   font-size: 62px;
   font-weight: 700;
@@ -370,6 +403,9 @@ watch(
   }
 }
 
+// -----------------------------
+// Carousel Controls
+// -----------------------------
 .carousel-controls {
   position: absolute;
   left: 30px;
@@ -378,6 +414,7 @@ watch(
   display: flex;
   flex-direction: column;
   gap: 10px;
+
   @include respond-to($breakpoint-sm) {
     top: unset;
     left: 50%;
@@ -406,13 +443,21 @@ watch(
   }
 }
 
+// -----------------------------
+// Utility Classes
+// -----------------------------
 .lang-select {
   max-width: 100px;
 }
+
 .dark-bg {
   background: black !important;
   color: $white-text-color;
 }
+
+// -----------------------------
+// Mobile Menu
+// -----------------------------
 .mob-bottom-menu {
   background: black;
   display: flex;
@@ -423,10 +468,5 @@ watch(
   bottom: 0;
   left: 0;
   width: 100%;
-}
-@include respond-to($breakpoint-md) {
-  .secondary-bg {
-    background-image: url("/assets/images/mobiel-header-bg.svg");
-  }
 }
 </style>

@@ -1,5 +1,8 @@
+<!-- Calendar Courses Component Template -->
 <template>
+  <!-- Main container with background styling -->
   <div id="calendarCourses" class="second-bg">
+    <!-- Header section with title and description -->
     <div class="calender-courses-section">
       <div class="title-section">
         <div class="row-title">
@@ -14,43 +17,52 @@
         </p>
       </div>
     </div>
+
+    <!-- Courses slider section -->
     <div class="slider-parent">
       <div class="slider-section">
+        <!-- Vuetify sheet wrapper -->
         <v-sheet class="my-8">
+          <!-- Horizontal slide group for course cards -->
           <v-slide-group
             v-model="model"
             class="pa-4"
             selected-class="bg-success"
             :show-arrows="false"
           >
+            <!-- Individual course card items -->
             <v-slide-group-item
               v-for="(card, index) in sliderCards"
               :key="index"
-              v-slot="{ isSelected, toggle }"
+              v-slot="{ toggle }"
             >
+              <!-- Course card -->
               <v-card
                 class="ma-4 position-relative course-card"
                 @click="toggle"
               >
-                <!-- Background Image -->
+                <!-- Card background image layer -->
                 <div
                   class="card-background"
                   :style="{
                     backgroundImage: `url('/_nuxt/assets/images/${card.img}')`,
                   }"
-                ></div>
-                <!-- Dark Overlay -->
-                <div class="card-overlay"></div>
+                />
 
+                <!-- Gradient overlay for better text visibility -->
+                <div class="card-overlay" />
+
+                <!-- Card content container -->
                 <div
                   class="fill-height d-flex flex-column justify-end position-relative"
                 >
                   <div class="pa-4">
-                    <!-- Title and Icon Row -->
+                    <!-- Card header with title and action button -->
                     <div class="d-flex align-center mb-4">
                       <h3 class="text-h5 text-white me-auto">
                         {{ card.title }}
                       </h3>
+                      <!-- Dynamic action button -->
                       <v-btn
                         icon
                         :color="index % 2 === 0 ? 'black' : 'white'"
@@ -58,6 +70,7 @@
                         size="small"
                         :class="index % 2 === 0 ? 'bg-white' : 'bg-primary'"
                       >
+                        <!-- Share icon SVG -->
                         <svg
                           width="24"
                           height="24"
@@ -73,14 +86,15 @@
                       </v-btn>
                     </div>
 
-                    <!-- Description -->
+                    <!-- Course description -->
                     <p class="text-white mb-4">{{ card.description }}</p>
 
-                    <!-- Countdown Box -->
+                    <!-- Countdown timer section -->
                     <div
                       class="counter-section"
                       :class="{ 'red-bg': index % 2 !== 0 }"
                     >
+                      <!-- Timer header with icon -->
                       <div class="title-with-date">
                         <p class="course-title">
                           <img
@@ -89,12 +103,14 @@
                                 ? '/_nuxt/assets/images/clock.svg'
                                 : '/_nuxt/assets/images/clock-white.svg'
                             "
-                            alt=""
+                            alt="Clock icon"
                           />
-                          <span :class="{ 'text-white': index % 2 !== 0 }"
-                            >Course starts after:</span
-                          >
+                          <span :class="{ 'text-white': index % 2 !== 0 }">
+                            Course starts after:
+                          </span>
                         </p>
+
+                        <!-- Countdown units display -->
                         <div class="count-down-section">
                           <div
                             v-for="(time, unit) in getCountdown(
@@ -118,14 +134,15 @@
                           </div>
                         </div>
                       </div>
-                      <!-- Progress bar -->
+
+                      <!-- Progress indicator -->
                       <v-progress-linear
                         :model-value="getProgressValue(card.countdownDate)"
                         :color="index % 2 === 0 ? '#282828' : 'white'"
                         height="8"
                         rounded
                         class="mt-4"
-                      ></v-progress-linear>
+                      />
                     </div>
                   </div>
                 </div>
@@ -134,7 +151,7 @@
           </v-slide-group>
         </v-sheet>
 
-        <!-- Carousel Controls -->
+        <!-- Navigation dots -->
         <div class="carousel-controls">
           <div class="dots">
             <span
@@ -143,19 +160,26 @@
               class="dot"
               :class="{ active: model === index }"
               @click="model = index"
-            ></span>
+            />
           </div>
         </div>
       </div>
     </div>
   </div>
 </template>
-
 <script setup>
 import { ref, onMounted, onUnmounted } from "vue";
 
-const model = ref(0); // Initialize with 0 to make first slide active
+/**
+ * Current active slide index
+ * Initialized with 0 to make the first slide active
+ */
+const model = ref(0);
 
+/**
+ * Array of course cards containing course information and countdown dates
+ * Each course has an image, title, description, and target start date
+ */
 const sliderCards = ref([
   {
     img: "Accounting.jpeg",
@@ -175,6 +199,7 @@ const sliderCards = ref([
     description: "This course will start on the 5nd month of 2025",
     countdownDate: new Date("2025-05-20T18:30:00"),
   },
+  // Duplicate entries for carousel effect
   {
     img: "Accounting.jpeg",
     title: "Accounting",
@@ -195,12 +220,21 @@ const sliderCards = ref([
   },
 ]);
 
+/**
+ * Reference to the interval timer for updating countdown
+ */
 const intervalId = ref(null);
 
+/**
+ * Calculates the remaining time until the target date
+ * @param {Date} targetDate - The future date to countdown to
+ * @returns {Object} Object containing days, hours, minutes, and seconds
+ */
 const getCountdown = (targetDate) => {
   const now = new Date().getTime();
   const distance = targetDate.getTime() - now;
 
+  // Calculate time components
   const days = Math.floor(distance / (1000 * 60 * 60 * 24));
   const hours = Math.floor(
     (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
@@ -216,20 +250,29 @@ const getCountdown = (targetDate) => {
   };
 };
 
+/**
+ * Calculates the progress percentage towards the course start date
+ * @param {Date} targetDate - The course start date
+ * @returns {number} Percentage of time elapsed (0-100)
+ */
 const getProgressValue = (targetDate) => {
   const now = new Date().getTime();
   const total = targetDate.getTime() - now;
-  const oneYear = 365 * 24 * 60 * 60 * 1000;
-  return ((oneYear - total) / oneYear) * 100;
+  const oneYear = 365 * 24 * 60 * 60 * 1000; // One year in milliseconds
+  return Math.min(Math.max(((oneYear - total) / oneYear) * 100, 0), 100); // Ensure value is between 0-100
 };
 
+// Lifecycle hooks
 onMounted(() => {
+  // Start the countdown timer
   intervalId.value = setInterval(() => {
+    // Force reactivity update by creating a new array reference
     sliderCards.value = [...sliderCards.value];
   }, 1000);
 });
 
 onUnmounted(() => {
+  // Clean up the interval when component is destroyed
   if (intervalId.value) {
     clearInterval(intervalId.value);
   }
@@ -237,57 +280,73 @@ onUnmounted(() => {
 </script>
 
 <style lang="scss" scoped>
+/**
+ * Main container background
+ */
 .second-bg {
-  background-color: #f9fafb;
+  background-color: $background-color;
+
+  // Ensure v-sheet maintains same background
   .v-sheet {
-    background-color: #f9fafb;
+    background-color: $background-color;
   }
 }
 
+/**
+ * Main section container
+ * Extends global width and padding mixins
+ */
 .calender-courses-section {
   @extend %sideWidth;
   @extend %globalPadding;
 }
 
+/**
+ * Slider container with relative positioning
+ * Controls the overall slider layout
+ */
 .slider-parent {
   position: relative;
-
   width: 100%;
-  //overflow: hidden;
   padding-bottom: 3rem;
 
   .slider-section {
-    // padding-left: 200px;
-    // margin-right: -200px;
-
     .v-sheet {
       overflow: visible;
 
+      // Vuetify slide group customization
       .v-slide-group {
         &__content {
           display: flex;
           justify-content: flex-start;
-          //padding-right: 200px;
         }
       }
     }
   }
 }
 
+/**
+ * Individual course card styling
+ * Responsive dimensions for different screen sizes
+ */
 .course-card {
   position: relative;
   overflow: hidden;
   border-radius: $radius-20;
   height: 603px;
   width: 461px;
+
+  // Responsive adjustments for medium screens
   @include respond-to($breakpoint-md) {
     height: 503px;
     width: 300px;
   }
 }
 
-// New styles for background and overlay
-
+/**
+ * Card background and overlay styling
+ * Creates depth effect with gradient overlay
+ */
 .card-background {
   position: absolute;
   top: 0;
@@ -304,6 +363,7 @@ onUnmounted(() => {
   left: 0;
   width: 100%;
   height: 100%;
+  // Gradient overlay for better text visibility
   background: linear-gradient(
     to bottom,
     rgba(0, 0, 0, 0) 0%,
@@ -312,42 +372,54 @@ onUnmounted(() => {
   );
 }
 
+/**
+ * Counter section styling
+ * Displays countdown timer with conditional background
+ */
 .counter-section {
   padding: 1rem;
   background-color: white;
-  color: #282828;
+  color: $second-color;
   border-radius: 12px;
   position: relative;
   z-index: 1;
 
+  // Variant with red background
   &.red-bg {
-    background-color: #d93749;
+    background-color: $main-color;
     color: white;
   }
 }
 
+/**
+ * Title and countdown display layout
+ */
 .title-with-date {
   display: flex;
   justify-content: space-between;
   align-items: center;
 
+  // Course title container
   .course-title {
     display: flex;
     align-items: center;
     gap: 0.2rem;
   }
 
+  // Countdown timer layout
   .count-down-section {
     display: flex;
     justify-content: space-around;
     gap: 1rem;
 
+    // Time number display
     .time-text {
       font-size: 20px;
       font-weight: 700;
       line-height: 20px;
     }
 
+    // Time unit label
     .unit-text {
       font-size: 12px;
       font-weight: 400;
@@ -357,30 +429,39 @@ onUnmounted(() => {
   }
 }
 
+/**
+ * Carousel navigation controls
+ * Includes dots for slide indication
+ */
 .carousel-controls {
   display: flex;
   justify-content: center;
   margin-top: 2rem;
   position: relative;
   left: 100px;
+
+  // Reset position on medium screens
   @include respond-to($breakpoint-md) {
     left: 0px;
   }
 
+  // Navigation dots container
   .dots {
     display: flex;
     gap: 0.5rem;
 
+    // Individual dot styling
     .dot {
       width: 10px;
       height: 10px;
       border-radius: 50%;
-      background-color: #d1d5db;
+      background-color: $dot-inactive;
       cursor: pointer;
       transition: all 0.3s ease;
 
+      // Active dot state
       &.active {
-        background-color: #d93749;
+        background-color: $main-color;
         width: 24px;
         border-radius: 12px;
       }
@@ -388,7 +469,10 @@ onUnmounted(() => {
   }
 }
 
+/**
+ * Primary background utility class
+ */
 .bg-primary {
-  background-color: #d93749 !important;
+  background-color: $main-color !important;
 }
 </style>

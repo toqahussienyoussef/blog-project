@@ -1,5 +1,5 @@
 import { ref, computed } from 'vue'
-import { useFetch } from '#app'
+import { useFetch } from 'nuxt/app'
 
 export const usePosts = () => {
   const posts = ref([])

@@ -1,12 +1,16 @@
+<!-- JoinUsForm.vue -->
 <template>
   <div class="text-center pa-4">
+    <!-- Join Us Trigger Button -->
     <span @click="dialog = true" class="clickable shadow-border mr-4">
       Join Us <v-icon icon="mdi-menu-down"></v-icon>
     </span>
 
+    <!-- Join Us Dialog -->
     <v-dialog v-model="dialog" width="70%" height="70%">
       <v-card max-width="100%">
         <v-row class="login-card">
+          <!-- Left Side - Background Image -->
           <v-col cols="12" sm="12" md="6" class="p-0">
             <div class="login-img-bg">
               <h2>
@@ -15,52 +19,48 @@
               </h2>
             </div>
           </v-col>
+
+          <!-- Right Side - Form -->
           <v-col cols="12" sm="12" md="6" class="p-0">
             <div class="form-section">
               <p class="form-title">Join us now</p>
+
+              <!-- Registration Form -->
               <v-form @submit.prevent="handleSubmit" v-model="isValid">
+                <!-- Name Field -->
                 <v-text-field
-                  class="input-field"
                   v-model="form.name"
+                  class="input-field"
                   label="Name"
-                  :rules="[
-                    (v) => !!v || 'Name is required',
-                    (v) =>
-                      /[a-z]/gi.test(v) || 'Use Only English Letters for name',
-                  ]"
-                  required
                   placeholder="Name"
                   variant="outlined"
+                  required
+                  :rules="nameRules"
                 />
 
+                <!-- Email Field -->
                 <v-text-field
-                  class="input-field"
                   v-model="form.email"
+                  class="input-field"
                   label="Email"
                   type="email"
-                  :rules="[
-                    (v) => !!v || 'Email is required',
-                    (v) => /.+@.+\..+/.test(v) || 'Email must be valid',
-                  ]"
-                  required
                   variant="outlined"
+                  required
+                  :rules="emailRules"
                 />
 
+                <!-- Phone Field -->
                 <v-text-field
-                  class="input-field"
                   v-model="form.phone"
+                  class="input-field"
                   label="Phone"
                   type="tel"
-                  :rules="[
-                    (v) => !!v || 'Phone is required',
-                    (v) => /^[0-9+\-\s()]*$/.test(v) || 'Invalid phone format',
-                    (v) =>
-                      v.length <= 15 || 'Name must be less than 15 characters',
-                  ]"
-                  required
                   variant="outlined"
+                  required
+                  :rules="phoneRules"
                 />
 
+                <!-- Alert Messages -->
                 <v-alert v-if="error" type="error" class="mb-4">
                   {{ error }}
                 </v-alert>
@@ -68,10 +68,14 @@
                 <v-alert v-if="success" type="success" class="mb-4">
                   Successfully submitted!
                 </v-alert>
+
+                <!-- Terms Checkbox -->
                 <v-checkbox
                   v-model="form.terms"
                   label="I agree with terms & conditions"
-                ></v-checkbox>
+                />
+
+                <!-- Submit Button -->
                 <v-btn
                   type="submit"
                   :loading="loading"
@@ -91,11 +95,29 @@
 
 <script setup lang="ts">
 import { ref, reactive } from "vue";
+
+// Component state
 const dialog = ref(false);
-
-const { loading, error, success, submitForm } = useJoinUsForm();
-
 const isValid = ref(false);
+
+// Form validation rules
+const nameRules = [
+  (v: string) => !!v || "Name is required",
+  (v: string) => /[a-z]/gi.test(v) || "Use Only English Letters for name",
+];
+
+const emailRules = [
+  (v: string) => !!v || "Email is required",
+  (v: string) => /.+@.+\..+/.test(v) || "Email must be valid",
+];
+
+const phoneRules = [
+  (v: string) => !!v || "Phone is required",
+  (v: string) => /^[0-9+\-\s()]*$/.test(v) || "Invalid phone format",
+  (v: string) => v.length <= 15 || "Name must be less than 15 characters",
+];
+
+// Form state
 const form = reactive({
   name: "",
   email: "",
@@ -103,6 +125,10 @@ const form = reactive({
   terms: false,
 });
 
+// Import form handling composable
+const { loading, error, success, submitForm } = useJoinUsForm();
+
+// Form methods
 const resetForm = () => {
   form.name = "";
   form.email = "";
@@ -123,10 +149,12 @@ const handleSubmit = async () => {
 </script>
 
 <style scoped lang="scss">
+// Utility classes
 .clickable {
   cursor: pointer;
 }
 
+// Background image section
 .login-img-bg {
   background-image: url("/assets/images/login-img.jpg");
   height: 100%;
@@ -141,33 +169,45 @@ const handleSubmit = async () => {
     font-weight: 500;
     line-height: 36px;
     text-align: center;
+
     @include respond-to($breakpoint-md) {
       padding: 3rem;
       font-size: 20px;
     }
   }
 }
+
+// Form section styling
 .form-section {
   padding: 2rem;
+
   .solid-main {
     min-height: 3rem;
     border-radius: 16px;
   }
+
   .form-title {
     font-size: 21px;
     font-weight: 500;
     line-height: 30px;
     margin-bottom: 2rem;
   }
+
   .input-field {
     margin-bottom: 1rem;
-    .v-input--density-default .v-field--variant-outlined,
-    .v-input--density-default .v-field--single-line,
-    .v-input--density-default .v-field--no-label {
-      border-radius: 10px;
+
+    // Vuetify input customization
+    .v-input--density-default {
+      .v-field--variant-outlined,
+      .v-field--single-line,
+      .v-field--no-label {
+        border-radius: 10px;
+      }
     }
   }
 }
+
+// Card layout
 .login-card {
   .v-col {
     padding: 0 !important;
