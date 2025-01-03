@@ -7,7 +7,7 @@
     <v-dialog v-model="dialog" width="70%" height="70%">
       <v-card max-width="100%">
         <v-row class="login-card">
-          <v-col class="p-0">
+          <v-col cols="12" sm="12" md="6" class="p-0">
             <div class="login-img-bg">
               <h2>
                 Welcome to <br />
@@ -15,7 +15,7 @@
               </h2>
             </div>
           </v-col>
-          <v-col class="p-0">
+          <v-col cols="12" sm="12" md="6" class="p-0">
             <div class="form-section">
               <p class="form-title">Join us now</p>
               <v-form @submit.prevent="handleSubmit" v-model="isValid">
@@ -133,6 +133,7 @@ const handleSubmit = async () => {
   width: 100%;
   background-size: cover;
   background-position: center;
+
   h2 {
     padding-top: 2rem;
     color: $white-text-color;
@@ -140,6 +141,10 @@ const handleSubmit = async () => {
     font-weight: 500;
     line-height: 36px;
     text-align: center;
+    @include respond-to($breakpoint-md) {
+      padding: 3rem;
+      font-size: 20px;
+    }
   }
 }
 .form-section {
@@ -164,8 +169,6 @@ const handleSubmit = async () => {
   }
 }
 .login-card {
-  max-width: 100%;
-  max-height: 100%;
   .v-col {
     padding: 0 !important;
   }

@@ -30,8 +30,6 @@
             >
               <v-card
                 class="ma-4 position-relative course-card"
-                height="603"
-                width="460"
                 @click="toggle"
               >
                 <!-- Background Image -->
@@ -88,8 +86,8 @@
                           <img
                             :src="
                               index % 2 === 0
-                                ? '/assets/images/clock.svg'
-                                : '/assets/images/clock-white.svg'
+                                ? '/_nuxt/assets/images/clock.svg'
+                                : '/_nuxt/assets/images/clock-white.svg'
                             "
                             alt=""
                           />
@@ -280,6 +278,12 @@ onUnmounted(() => {
   position: relative;
   overflow: hidden;
   border-radius: $radius-20;
+  height: 603px;
+  width: 461px;
+  @include respond-to($breakpoint-md) {
+    height: 503px;
+    width: 300px;
+  }
 }
 
 // New styles for background and overlay
@@ -359,6 +363,9 @@ onUnmounted(() => {
   margin-top: 2rem;
   position: relative;
   left: 100px;
+  @include respond-to($breakpoint-md) {
+    left: 0px;
+  }
 
   .dots {
     display: flex;

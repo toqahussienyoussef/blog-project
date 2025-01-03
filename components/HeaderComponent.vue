@@ -1,53 +1,30 @@
+<!-- Header.vue -->
 <template>
   <div class="header-container pa-0">
-    <!-- Background layers -->
     <div class="primary-bg">
       <div class="secondary-bg">
         <div class="menu-section d-flex align-center">
-          <!-- Logo -->
-          <img src="../assets/images/logo.png" max-width="150" />
-
-          <!-- Center Navigation -->
+          <img src="/_nuxt/assets/images/logo.png" max-width="150" alt="Logo" />
 
           <!-- Desktop Navigation -->
-
-          <!-- components/AppNavbar.vue -->
-
-          <v-tabs v-model="activeTab" color="primary" class="main-menu">
+          <v-tabs
+            v-model="activeTab"
+            color="#D93749"
+            class="main-menu hidden-sm-and-down"
+          >
             <v-tab
               v-for="item in navigationItems"
               :key="item.title"
               :value="item.value"
               :to="item.path"
-              :href="item.anchor"
-              @click="handleNavigation(item)"
               class="menu-item"
             >
               {{ item.title }}
             </v-tab>
           </v-tabs>
 
-          <!-- Mobile Navigation Drawer -->
-          <v-navigation-drawer v-model="drawer" location="right" temporary>
-            <v-list>
-              <v-list-item
-                v-for="item in navigationItems"
-                :key="item.title"
-                :value="item.value"
-                :to="item.path"
-                :href="item.anchor"
-                :active="activeTab === item.value"
-                @click="handleNavigation(item)"
-              >
-                <v-list-item-title>{{ item.title }}</v-list-item-title>
-              </v-list-item>
-            </v-list>
-          </v-navigation-drawer>
-
-          <!-- Right Side Items -->
-          <div class="right-section">
+          <div class="right-section-menu">
             <LoginForm />
-
             <span class="shadow-border">
               <v-icon>mdi-magnify</v-icon>
             </span>
@@ -60,11 +37,46 @@
               hide-details
             />
           </div>
+          <!-- Mobile menu trigger -->
+          <span class="hidden-md-and-up ml-4" @click="drawer = !drawer">
+            <v-icon color="white">mdi-menu</v-icon>
+          </span>
         </div>
 
-        <!-- Navigation bar -->
+        <!-- Mobile Navigation -->
+        <v-navigation-drawer
+          v-model="drawer"
+          location="right"
+          temporary
+          class="hidden-md-and-up dark-bg"
+        >
+          <v-list>
+            <v-list-item
+              v-for="item in navigationItems"
+              :key="item.title"
+              :to="item.path"
+              @click="handleNavigation(item)"
+            >
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </v-list-item>
+          </v-list>
+          <div class="mob-bottom-menu">
+            <span class="shadow-border">
+              <v-icon>mdi-magnify</v-icon>
+            </span>
+            <v-select
+              v-model="selectedLang"
+              :items="languages"
+              variant="plain"
+              density="compact"
+              class="lang-select ml-4 shadow-border"
+              hide-details
+            />
+            <LoginForm />
+          </div>
+        </v-navigation-drawer>
 
-        <!-- Carousel Content -->
+        <!-- Hero Section -->
         <v-carousel
           v-model="currentSlide"
           :show-arrows="false"
@@ -75,11 +87,10 @@
           <v-carousel-item v-for="slide in slides" :key="slide.id">
             <v-container class="fill-height">
               <v-row class="main-row">
-                <!-- Left side content -->
-                <v-col cols="6">
-                  <span class="red-shadow-span"
-                    >Enhance your financial career</span
-                  >
+                <v-col cols="12" md="6" class="content-section">
+                  <span class="red-shadow-span">
+                    Enhance your financial career
+                  </span>
                   <h1 class="heading-text">
                     Advance Your Career with Expert Finance Courses
                   </h1>
@@ -90,28 +101,34 @@
                   </p>
                   <button class="btn solid-main mt-6">Get Started Today</button>
                 </v-col>
-                <v-col cols="6" class="right-section">
+
+                <v-col cols="12" md="6" class="right-section">
                   <div class="student-learn-box">
                     <img
                       class="student-icon"
-                      src="/assets/images/student.svg"
-                      alt=""
+                      src="/_nuxt/assets/images/student.svg"
+                      alt="Student"
                     />
-                    <p><span>100k+</span> Students Learn Daily</p>
+                    <p>
+                      <span>100k+</span> Students <br />
+                      Learn Daily
+                    </p>
                   </div>
                   <img
                     class="flight-book-icon"
-                    src="/assets/images/Icon.svg"
-                    alt=""
+                    src="/_nuxt/assets/images/Icon.svg"
+                    alt="Flight book"
                   />
                   <div class="our-happy-students-box">
                     <p>Our Happy Students</p>
-                    <span>20k+ User </span>
+                    <span>20k+ User</span>
                     <div class="imgs-section">
-                      <img src="/assets/images/1.png" alt="" />
-                      <img src="/assets/images/2.png" alt="" />
-                      <img src="/assets/images/3.png" alt="" />
-                      <img src="/assets/images/4.png" alt="" />
+                      <img
+                        v-for="i in 4"
+                        :key="i"
+                        :src="`/_nuxt/assets/images/${i}.png`"
+                        :alt="`Student ${i}`"
+                      />
                     </div>
                   </div>
                 </v-col>
@@ -136,75 +153,36 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from "vue";
+import { ref, watch } from "vue";
 import { useRoute } from "vue-router";
 
-const languages = ["EN", "FR", "AR"];
+const route = useRoute();
+const drawer = ref(false);
+const activeTab = ref(null);
 const selectedLang = ref("EN");
 const currentSlide = ref(0);
+
+const languages = ["EN", "FR", "AR"];
 const slides = [
   { id: 1, title: "Slide 1" },
   { id: 2, title: "Slide 2" },
   { id: 3, title: "Slide 3" },
 ];
 
-const route = useRoute();
-const drawer = ref(false);
-const activeTab = ref(null);
-
 const navigationItems = [
-  {
-    title: "Home",
-    value: "home",
-    path: "/",
-    anchor: null,
-  },
-  {
-    title: "Courses",
-    value: "courses",
-    path: "/courses",
-    anchor: null,
-  },
-  {
-    title: "Become partner",
-    value: "partner",
-    path: "/become-partner",
-    anchor: null,
-  },
-  {
-    title: "About us",
-    value: "about",
-    path: "/about",
-    anchor: null,
-  },
-  {
-    title: "Teams",
-    value: "teams",
-    path: "/teams",
-    anchor: null,
-  },
-  {
-    title: "Blog",
-    value: "blog",
-    path: "/blog",
-    anchor: null,
-  },
+  { title: "Home", value: "home", path: "/" },
+  { title: "Courses", value: "courses", path: "/courses" },
+  { title: "Become partner", value: "partner", path: "/become-partner" },
+  { title: "About us", value: "about", path: "/about" },
+  { title: "Teams", value: "teams", path: "/teams" },
+  { title: "Blog", value: "blog", path: "/blog" },
 ];
 
-// Handle navigation and active states
 const handleNavigation = (item) => {
   activeTab.value = item.value;
-  if (item.anchor) {
-    // Handle anchor navigation
-    const element = document.querySelector(item.anchor);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
-    drawer.value = false;
-  }
+  drawer.value = false;
 };
 
-// Watch route changes to update active tab
 watch(
   () => route.path,
   (newPath) => {
@@ -215,45 +193,181 @@ watch(
   },
   { immediate: true }
 );
-
-// Check for hash in URL on mount for anchor links
-onMounted(() => {
-  if (route.hash) {
-    const matchedItem = navigationItems.find(
-      (item) => item.anchor === route.hash
-    );
-    if (matchedItem) {
-      activeTab.value = matchedItem.value;
-    }
-  }
-});
 </script>
 
-<style scoped lang="scss">
-.menu-section {
-  @extend %sideWidth;
-}
+<style lang="scss" scoped>
 .header-container {
   position: relative;
+  .subheading-text {
+    color: $white-text-color;
+    @include respond-to($breakpoint-md) {
+      font-size: 14px;
+    }
+  }
 }
 
+.menu-section {
+  @extend %sideWidth;
+  padding: 2rem 0;
+  justify-content: space-between;
+
+  .menu-item {
+    color: $menu-color-white;
+  }
+
+  .right-section-menu {
+    display: flex;
+    align-items: center;
+  }
+  @include respond-to($breakpoint-md) {
+    .right-section-menu {
+      display: none !important;
+    }
+  }
+}
+
+.main-row {
+  position: relative;
+
+  @include respond-to($breakpoint-md) {
+    flex-direction: column;
+
+    .content-section {
+      padding: 2rem;
+    }
+
+    .right-section {
+      position: relative !important;
+      right: 0 !important;
+      bottom: 10% !important;
+      height: auto !important;
+      margin-top: 0rem;
+
+      &::after {
+        // position: relative !important;
+        height: 400px !important;
+        left: 20%;
+        width: 260px;
+        left: 20%;
+        bottom: -15%;
+      }
+
+      .student-learn-box,
+      .our-happy-students-box {
+        position: relative !important;
+        width: fit-content !important;
+        margin: 1rem auto !important;
+        left: -30% !important;
+        p {
+          font-size: 10px;
+        }
+      }
+      .our-happy-students-box {
+        margin-top: 4rem !important;
+      }
+      .flight-book-icon {
+        right: 10%;
+      }
+      .imgs-section {
+        img {
+          width: 19.27px;
+        }
+      }
+    }
+  }
+}
+
+.right-section {
+  position: absolute;
+  right: -15%;
+  bottom: -34%;
+  height: 100%;
+
+  .student-learn-box {
+    @extend %headerBoxes;
+    width: fit-content;
+    position: absolute;
+    left: -11%;
+    top: -5%;
+
+    p {
+      font-size: 18px;
+      font-weight: 400;
+      line-height: 22px;
+
+      span {
+        color: $main-color;
+        font-weight: 500;
+      }
+    }
+  }
+
+  .flight-book-icon {
+    position: absolute;
+    right: 25%;
+    top: 15%;
+  }
+
+  .our-happy-students-box {
+    @extend %headerBoxes;
+    width: fit-content;
+    position: absolute;
+    bottom: 10%;
+    left: -15%;
+
+    p {
+      font-weight: 500;
+    }
+
+    span {
+      font-size: 11px;
+      font-weight: 300;
+      line-height: 12px;
+      margin-bottom: 1rem;
+      display: block;
+    }
+  }
+
+  &::after {
+    content: "";
+    background-image: url("/_nuxt/assets/images/header-man.png");
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 130%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    z-index: -1;
+  }
+}
+
+.primary-bg {
+  background-image: url("@/assets/images/background.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+.secondary-bg {
+  background-image: url("@/assets/images/header-random-shap.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: bottom left;
+}
+
+// Existing styles maintained
 .heading-text {
-  font-family: "Inter", sans-serif;
   font-size: 62px;
   font-weight: 700;
   line-height: 62px;
   letter-spacing: -0.04em;
   color: $white-text-color;
   margin-top: 2rem;
-}
 
-.subheading-text {
-  font-size: 20px;
-  font-weight: 400;
-  line-height: 32px;
-  text-align: left;
-
-  color: $white-text-color;
+  @include respond-to($breakpoint-md) {
+    font-size: 30px;
+    line-height: 30px;
+  }
 }
 
 .carousel-controls {
@@ -264,6 +378,13 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  @include respond-to($breakpoint-sm) {
+    top: unset;
+    left: 50%;
+    bottom: 30px;
+    transform: translateX(-50%);
+    flex-direction: row;
+  }
 }
 
 .control-dot {
@@ -272,28 +393,40 @@ onMounted(() => {
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.5);
   cursor: pointer;
-}
 
-.control-dot.active {
-  height: 28px;
-  width: 8px;
-  background: $white-text-color;
-  border-radius: 10px;
+  &.active {
+    height: 28px;
+    background: $white-text-color;
+    border-radius: 10px;
+
+    @include respond-to($breakpoint-sm) {
+      height: 8px;
+      width: 28px;
+    }
+  }
 }
 
 .lang-select {
   max-width: 100px;
 }
-
-.primary-bg {
-  background-image: url("../assets/images/background.png");
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
+.dark-bg {
+  background: black !important;
+  color: $white-text-color;
 }
-.secondary-bg {
-  background-image: url("../assets/images/header-random-shap.png");
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  background-position: bottom left;
+.mob-bottom-menu {
+  background: black;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+@include respond-to($breakpoint-md) {
+  .secondary-bg {
+    background-image: url("/assets/images/mobiel-header-bg.svg");
+  }
 }
 </style>

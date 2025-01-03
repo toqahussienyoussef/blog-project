@@ -2,7 +2,7 @@
   <div>
     <div id="whyUs" class="why-us-section">
       <v-row>
-        <v-col cols="6">
+        <v-col cols="12" sm="12" md="6">
           <div class="title-section">
             <div class="row-title">
               <img src="/assets/images/gray-icon.svg" alt="Why Us" />
@@ -25,7 +25,7 @@
             </div>
           </span>
         </v-col>
-        <v-col cols="6">
+        <v-col cols="12" sm="12" md="6">
           <div class="video-section">
             <img src="/assets/images/video-img.png" alt="" />
           </div>
@@ -66,6 +66,7 @@
   text-align: center;
   img {
     border-radius: $radius-16;
+    max-width: 100%;
   }
 }
 </style>

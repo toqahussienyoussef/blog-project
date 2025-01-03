@@ -1,7 +1,9 @@
 // Global //
 
 
-
+html {
+    scroll-behavior: smooth
+}
 
 
 .red-shadow-span {
@@ -80,6 +82,10 @@
         color: $text-color;
         max-width: 60%;
         margin-bottom: 2rem;
+
+        @include respond-to($breakpoint-md) {
+            max-width: 90%;
+        }
     }
 
 }
@@ -104,6 +110,12 @@
     border-radius: $radius-16 ;
     padding: 1rem 2rem;
     font-weight: 500;
+
+    @include respond-to($breakpoint-md) {
+        border-radius: $radius-14 ;
+        padding: 1rem;
+    }
+
 }
 
 .solid-main {
@@ -118,109 +130,18 @@
 
 // Header 
 
-.menu-section {
-    padding: 2rem 0;
-    justify-content: space-between;
+.slider-parent {
 
-    .menu-item {
-        color: $menu-color-white;
-    }
-
-    .text-primary {
-        color: $main-color !important;
-    }
-
-    .right-section {
-        display: flex;
-        align-items: center;
-    }
+    .v-slide-group__container {
+        @media (min-width: 1024px) {
 
 
-}
-
-.header-container {
-    .main-row {
-        position: relative;
-
-        .right-section {
-
-            position: absolute;
-            right: -15%;
-            bottom: -31%;
-            height: 100%;
-
-            .student-learn-box {
-                @extend %headerBoxes;
-                width: 30%;
-                position: absolute;
-                left: -11%;
-                top: -5%;
-
-
-                p {
-                    font-size: 18px;
-                    font-weight: 400;
-                    line-height: 22px;
-
-                    span {
-                        color: $main-color;
-                        font-weight: 500;
-                    }
-                }
-
-            }
-
-            .flight-book-icon {
-                position: absolute;
-                right: 25%;
-                top: 15%;
-            }
-
-            .our-happy-students-box {
-                @extend %headerBoxes;
-                width: 40%;
-                position: absolute;
-                bottom: 10%;
-                left: -15%;
-
-                p {
-                    font-weight: 500;
-                    // margin-bottom: -5px;
-                }
-
-                span {
-                    font-size: 11px;
-                    font-weight: 300;
-                    line-height: 12px;
-                    margin-bottom: 1rem;
-                    display: block;
-
-                }
-            }
-        }
-
-        .right-section::after {
-            content: "";
-            background-image: url('/assets/images/header-man.png');
-            position: absolute;
-            left: 0;
-            bottom: 0;
-            width: 100%;
-            height: 130%;
-            background-size: contain;
-            z-index: -1;
-        }
-    }
-}
-
-@media (min-width: 1024px) {
-
-
-    .slider-parent {
-
-        .v-slide-group__container {
             position: relative;
             right: -5% !important;
+        }
+
+        @include respond-to($breakpoint-md) {
+            right: 0 !important;
         }
     }
 }
