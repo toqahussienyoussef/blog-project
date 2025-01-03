@@ -41,7 +41,7 @@
         <v-col cols="12" md="2">
           <h3 class="footer-title">Legal Information</h3>
           <ul class="footer-links">
-            <li><nuxt-link to="/">Terms of Services</nuxt-link></li>
+            <li><nuxt-link to="/asd">Terms of Services</nuxt-link></li>
             <li><nuxt-link to="/">Privacy Policy</nuxt-link></li>
           </ul>
         </v-col>
@@ -100,7 +100,7 @@
   bottom: 0;
   left: 0;
   width: 100%;
-  height: auto;
+  height: 100%;
   z-index: -1;
   opacity: 0.8;
   @include respond-to($breakpoint-md) {
