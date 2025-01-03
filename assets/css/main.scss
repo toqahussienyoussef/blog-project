@@ -1,0 +1,226 @@
+// Global //
+
+
+
+
+
+.red-shadow-span {
+    color: #F3F3F3;
+    border-radius: $radius-38px;
+    margin-bottom: 2rem;
+    padding: 7px 20px;
+    position: relative;
+    background: black;
+    border: 1px solid #FFFFFF14;
+    box-shadow: 0px 0px 12px 0px #FFFFFF33 inset;
+    position: relative;
+    z-index: 9;
+}
+
+.red-shadow-span::after {
+    content: "";
+    position: absolute;
+    right: -2px !important;
+    inset: -1px;
+    background: linear-gradient(90deg, #D93749 0%, #D93749 50%, #f7e7e9 100%);
+    border-radius: 19px;
+    z-index: -2;
+    top: -1px;
+    bottom: -2px;
+
+}
+
+.shadow-border {
+    box-shadow: 0px 0px 12px 0px #FFFFFF33 inset;
+    border-radius: $radius-38px;
+    padding: 12px;
+    color: $white-text-color;
+
+    .v-field__input,
+    .v-field.v-field--variant-plain .v-field__append-inner {
+        padding-top: 0 !important;
+    }
+}
+
+
+// Row title
+
+.title-section {
+
+    .row-title {
+        border: 1px solid #DFE1E7;
+        width: fit-content;
+        padding: 8px 10px;
+        border-radius: 8px;
+        box-shadow: 0px 1px 2px 0px #0D0D120F;
+        font-size: 12px;
+        font-weight: 500;
+        line-height: 18px;
+        color: $text-color;
+        display: flex;
+        gap: 0.3rem;
+        align-items: center;
+
+    }
+
+
+    h1 {
+
+        font-size: 48px;
+        font-weight: 700;
+        line-height: 60px;
+        margin: 1rem 0;
+        color: $bold-titles;
+    }
+
+    p {
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 27px;
+        color: $text-color;
+        max-width: 60%;
+        margin-bottom: 2rem;
+    }
+
+}
+
+
+// BTNS
+
+.btn {
+    text-transform: capitalize !important;
+    font-size: 16px !important;
+    font-weight: 500 !important;
+    min-width: fit-content;
+
+
+    border-radius: $radius-16 !important;
+}
+
+%button-shared {
+    background: $main-color !important;
+    color: $white-text-color !important;
+    font-size: 16px;
+    border-radius: $radius-16 ;
+    padding: 1rem 2rem;
+    font-weight: 500;
+}
+
+.solid-main {
+    @extend %button-shared;
+
+}
+
+// .solid-main {
+//     background-color: var(--main-color) !important;
+//     color: var(--white-text-color) !important;
+// }
+
+// Header 
+
+.menu-section {
+    padding: 2rem 0;
+    justify-content: space-between;
+
+    .menu-item {
+        color: $menu-color-white;
+    }
+
+    .text-primary {
+        color: $main-color !important;
+    }
+
+    .right-section {
+        display: flex;
+        align-items: center;
+    }
+
+
+}
+
+.header-container {
+    .main-row {
+        position: relative;
+
+        .right-section {
+
+            position: absolute;
+            right: -15%;
+            bottom: -31%;
+            height: 100%;
+
+            .student-learn-box {
+                @extend %headerBoxes;
+                width: 30%;
+                position: absolute;
+                left: -11%;
+                top: -5%;
+
+
+                p {
+                    font-size: 18px;
+                    font-weight: 400;
+                    line-height: 22px;
+
+                    span {
+                        color: $main-color;
+                        font-weight: 500;
+                    }
+                }
+
+            }
+
+            .flight-book-icon {
+                position: absolute;
+                right: 25%;
+                top: 15%;
+            }
+
+            .our-happy-students-box {
+                @extend %headerBoxes;
+                width: 40%;
+                position: absolute;
+                bottom: 10%;
+                left: -15%;
+
+                p {
+                    font-weight: 500;
+                    // margin-bottom: -5px;
+                }
+
+                span {
+                    font-size: 11px;
+                    font-weight: 300;
+                    line-height: 12px;
+                    margin-bottom: 1rem;
+                    display: block;
+
+                }
+            }
+        }
+
+        .right-section::after {
+            content: "";
+            background-image: url('/assets/images/header-man.png');
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 130%;
+            background-size: contain;
+            z-index: -1;
+        }
+    }
+}
+
+@media (min-width: 1024px) {
+
+
+    .slider-parent {
+
+        .v-slide-group__container {
+            position: relative;
+            right: -5% !important;
+        }
+    }
+}

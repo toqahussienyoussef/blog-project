@@ -1,0 +1,44 @@
+// Variables
+
+
+
+//Colors 
+$main-color: #D93749; //Red
+$second-color: #282828; //Dark Blue
+$text-color: #666D80; // Gray
+$bold-titles: #0D0D12; // Dark
+$white-titles: #F6F6F6; // lite white
+$text-with-dark-bg: #FEFCF7; // white text
+$white-text-color: #F3F3F3; //White
+$menu-color-white: #F6F7F8; // Menu Items
+
+
+
+// Shadows
+$box-title-shadows: 0px 1px 2px 0px #0D0D120F;
+
+
+//Radius
+$radius-12: 12px;
+$radius-16: 16px;
+$radius-20: 20px;
+$radius-38px: 38px;
+
+
+
+%sideWidth {
+    max-width: 90%;
+    margin: auto;
+}
+
+%globalPadding {
+    padding: 3rem 0;
+}
+
+
+%headerBoxes {
+    background: #04121487;
+    color: $white-text-color;
+    padding: 1rem;
+    border-radius: 9px;
+}
