@@ -3,17 +3,7 @@
     <!-- How We Work Section -->
     <div id="howDoesWeWork" class="how-does-we-work-section">
       <!-- Section Header -->
-      <div class="title-section">
-        <div class="row-title">
-          <img src="/assets/images/gray-icon.svg" alt="Why Us" />
-          How does we work?
-        </div>
-        <h1>How does we work?</h1>
-        <p>
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry.
-        </p>
-      </div>
+      <TitleComponent :boxTitle="boxTitle" :title="title" />
 
       <!-- Process Steps Grid -->
       <v-row>
@@ -41,6 +31,13 @@
 <script setup>
 import { useDisplay } from "vuetify/lib/composables/display";
 import { computed, onMounted, ref } from "vue";
+
+/**
+ * Title Dada
+ */
+
+const boxTitle = ref("How does we work?");
+const title = ref("How does we work?");
 
 // Initialize Vuetify display composable for responsive design
 const display = useDisplay();

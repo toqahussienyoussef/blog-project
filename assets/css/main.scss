@@ -45,50 +45,7 @@ html {
 }
 
 
-// Row title
 
-.title-section {
-
-    .row-title {
-        border: 1px solid #DFE1E7;
-        width: fit-content;
-        padding: 8px 10px;
-        border-radius: 8px;
-        box-shadow: 0px 1px 2px 0px #0D0D120F;
-        font-size: 12px;
-        font-weight: 500;
-        line-height: 18px;
-        color: $text-color;
-        display: flex;
-        gap: 0.3rem;
-        align-items: center;
-
-    }
-
-
-    h1 {
-
-        font-size: 48px;
-        font-weight: 700;
-        line-height: 60px;
-        margin: 1rem 0;
-        color: $bold-titles;
-    }
-
-    p {
-        font-size: 18px;
-        font-weight: 400;
-        line-height: 27px;
-        color: $text-color;
-        max-width: 60%;
-        margin-bottom: 2rem;
-
-        @include respond-to($breakpoint-md) {
-            max-width: 90%;
-        }
-    }
-
-}
 
 
 // BTNS

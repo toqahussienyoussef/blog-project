@@ -7,18 +7,7 @@
         <!-- Left Column: Content -->
         <v-col cols="12" sm="12" md="6">
           <!-- Title and Description -->
-          <div class="title-section">
-            <div class="row-title">
-              <img src="/assets/images/gray-icon.svg" alt="Why Us Icon" />
-              Why us
-            </div>
-            <h1>Why Business 360?</h1>
-            <p>
-              Join Thousands of Professionals Who Have Advanced Their Careers
-              with Our Accredited Finance Courses, We offer more than just
-              courses; we provide pathways to a successful career in finance.
-            </p>
-          </div>
+          <TitleComponent :boxTitle="boxTitle" :title="title" :desc="desc" />
 
           <!-- User Stats Section -->
           <div class="imgs-section">
@@ -48,7 +37,15 @@
 </template>
 
 <script setup lang="ts">
-// Component logic can be added here if needed
+/**
+ * Title Dada
+ */
+
+const boxTitle = ref("Why us");
+const title = ref("Why Business 360?");
+const desc = ref(
+  "Join Thousands of Professionals Who Have Advanced Their Careers with Our Accredited Finance Courses, We offer more than just courses; we provide pathways to a successful career in finance."
+);
 </script>
 
 <style scoped lang="scss">

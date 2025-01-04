@@ -4,18 +4,7 @@
   <div id="calendarCourses" class="second-bg">
     <!-- Header section with title and description -->
     <div class="calender-courses-section">
-      <div class="title-section">
-        <div class="row-title">
-          <img src="/assets/images/gray-icon.svg" alt="Why Us" />
-          Calendar Courses
-        </div>
-        <h1>Stay Updated on Upcoming Courses and Events</h1>
-        <p>
-          Advance your career with leading finance and accounting certifications
-          available online and offline. Flexible Learning Options for Every
-          Career Stage.
-        </p>
-      </div>
+      <TitleComponent :boxTitle="boxTitle" :title="title" :desc="desc" />
     </div>
 
     <!-- Courses slider section -->
@@ -169,6 +158,16 @@
 </template>
 <script setup>
 import { ref, onMounted, onUnmounted } from "vue";
+
+/**
+ * Title Dada
+ */
+
+const boxTitle = ref("Calendar Courses");
+const title = ref("Stay Updated on Upcoming Courses and Events");
+const desc = ref(
+  "Advance your career with leading finance and accounting certifications available online and offline. Flexible Learning Options for Every Career Stage."
+);
 
 /**
  * Current active slide index
