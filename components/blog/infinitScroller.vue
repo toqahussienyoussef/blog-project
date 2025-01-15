@@ -1,33 +1,13 @@
-<!--
-  BlogPostsContainer.vue
-  A container component that displays blog posts with infinite scrolling functionality.
-  Features:
-  - Infinite scroll with loading states
-  - Lazy loading of post components
-  - Error and empty state handling
-  - Progress tracking of loaded posts
--->
 <template>
-  <div class="blog-posts-container">
+  <div class="blog-posts-container py-5 px-5">
     <!-- Header Section -->
-    <header class="title-section">
-      <div class="row-title">
-        <img
-          src="/assets/images/gray-icon.svg"
-          alt="Blog Icon"
-          class="blog-icon"
-        />
-        Our Blog
-      </div>
-      <h1>What You Need To Know</h1>
-      <p class="posts-counter">
-        {{ visiblePosts }} of {{ total }} posts loaded
-      </p>
-    </header>
+
+    <TitleComponent :boxTitle="boxTitle" :title="title" :desc="desc" />
+
+    <p class="posts-counter">{{ visiblePosts }} of {{ total }} posts loaded</p>
 
     <!-- Infinite Scroll Container -->
     <v-infinite-scroll
-      :height="SCROLL_CONTAINER_HEIGHT"
       :items="posts"
       :loading="loading"
       :onLoad="fetchPosts"
@@ -46,88 +26,93 @@
 
       <!-- Loading State -->
       <template #loading>
-        <div class="loading-container">
+        <div class="text-center pa-3">
           <v-progress-circular indeterminate color="primary" />
         </div>
       </template>
 
       <!-- Error State -->
       <template #error>
-        <v-alert type="error" class="state-alert">
-          Failed to load posts.
-        </v-alert>
+        <v-alert type="error" class="m-3"> Failed to load posts. </v-alert>
       </template>
 
       <!-- Empty State -->
       <template #empty>
-        <v-alert type="info" class="state-alert">
-          No more posts to load.
-        </v-alert>
+        <v-alert type="info" class="m-3"> No more posts to load. </v-alert>
       </template>
     </v-infinite-scroll>
   </div>
 </template>
 
 <script setup>
-// Imports
+import { ref, computed } from "vue";
+/**
+ * Title Dada
+ */
 
-// Constants
-const SCROLL_CONTAINER_HEIGHT = 600;
+const boxTitle = ref("Our Blog");
+const title = ref("What You Need To Know");
+const desc = ref(
+  "lorem your career with leading finance and accounting certifications available online and offline. Flexible Learning Options for Every Career Stage."
+);
+
+// State management
+const posts = ref([]);
+const page = ref(1);
+const hasMore = ref(true);
+const total = ref(0);
+const loading = ref(false);
+
+// Computed properties
+const visiblePosts = computed(
+  () => posts.value.filter((p) => p.isActive).length
+);
 
 // Lazy loading configuration
 const lazyLoadOptions = {
   threshold: 0.5,
 };
 
-// Fetch and manage posts data using composable
-const {
-  posts, // Array of post objects
-  loading, // Boolean loading state
-  total, // Total number of available posts
-  fetchPosts, // Function to fetch more posts
-  visiblePosts, // Number of currently visible posts
-} = usePosts();
+// Function to fetch posts
+const fetchPosts = async ({ done }) => {
+  if (!hasMore.value) {
+    done("empty");
+    return;
+  }
+
+  loading.value = true;
+
+  try {
+    const response = await $fetch(`${baseURL()}/posts`, {
+      params: { page: page.value },
+    });
+
+    const transformedData = {
+      items: response.data?.map((post) => ({ ...post, isActive: false })),
+      hasMore: !!response.next_page_url,
+      total: response.total,
+    };
+
+    if (transformedData.items?.length) {
+      posts.value.push(...transformedData.items);
+      hasMore.value = transformedData.hasMore;
+      total.value = transformedData.total;
+      page.value++;
+      done(hasMore.value ? "ok" : "empty");
+    } else {
+      hasMore.value = false;
+      done("empty");
+    }
+  } catch (error) {
+    console.error("Failed to fetch posts:", error);
+    done("error");
+  } finally {
+    loading.value = false;
+  }
+};
 </script>
 
 <style scoped lang="scss">
-.blog-posts-container {
-  padding: 1rem;
-}
-
-.blog-header {
-  margin: 2rem 0;
-
-  .blog-title {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  .posts-counter {
-    color: var(--text-secondary);
-    font-size: 0.9rem;
-  }
-}
-
-.posts-scroll-container {
-  // Custom scrollbar styling
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: var(--primary-color) #f1f1f1;
-
-  // Ensure smooth scrolling
-  -webkit-overflow-scrolling: touch;
-}
-
-.loading-container {
-  padding: 1rem;
-  text-align: center;
-}
-
-.state-alert {
-  margin: 1rem;
-}
-
 // Transition for lazy-loaded items
 .fade-transition {
   transition: opacity 0.3s ease;

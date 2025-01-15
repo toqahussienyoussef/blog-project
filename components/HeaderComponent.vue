@@ -1,9 +1,11 @@
 <!-- Header.vue -->
 <template>
-  <div class="header-container pa-0">
+  <div class="header-container position-relative pa-0">
     <div class="primary-bg">
       <div class="secondary-bg">
-        <div class="menu-section d-flex align-center">
+        <div
+          class="menu-section d-flex align-center justify-space-between py-4"
+        >
           <img src="/_nuxt/assets/images/logo.png" max-width="150" alt="Logo" />
 
           <!-- Desktop Navigation -->
@@ -23,7 +25,7 @@
             </v-tab>
           </v-tabs>
 
-          <div class="right-section-menu">
+          <div class="right-section-menu d-flex align-center">
             <LoginForm />
             <span class="shadow-border">
               <v-icon>mdi-magnify</v-icon>
@@ -60,7 +62,9 @@
               <v-list-item-title>{{ item.title }}</v-list-item-title>
             </v-list-item>
           </v-list>
-          <div class="mob-bottom-menu">
+          <div
+            class="mob-bottom-menu d-flex flex-column justify-center align-center position-absolute bottom-0 left-0 w-100"
+          >
             <span class="shadow-border">
               <v-icon>mdi-magnify</v-icon>
             </span>
@@ -86,12 +90,12 @@
         >
           <v-carousel-item v-for="slide in slides" :key="slide.id">
             <v-container class="fill-height">
-              <v-row class="main-row">
+              <v-row class="main-row position-relative">
                 <v-col cols="12" md="6" class="content-section">
                   <span class="red-shadow-span">
                     Enhance your financial career
                   </span>
-                  <h1 class="heading-text">
+                  <h1 class="heading-text mt-4">
                     Advance Your Career with Expert Finance Courses
                   </h1>
                   <p class="subheading-text mt-6">
@@ -102,8 +106,12 @@
                   <button class="btn solid-main mt-6">Get Started Today</button>
                 </v-col>
 
-                <v-col cols="12" md="6" class="right-section">
-                  <div class="student-learn-box">
+                <v-col
+                  cols="12"
+                  md="6"
+                  class="right-section position-absolute h-100"
+                >
+                  <div class="student-learn-box position-absolute">
                     <img
                       class="student-icon"
                       src="/_nuxt/assets/images/student.svg"
@@ -115,14 +123,14 @@
                     </p>
                   </div>
                   <img
-                    class="flight-book-icon"
+                    class="flight-book-icon position-absolute"
                     src="/_nuxt/assets/images/Icon.svg"
                     alt="Flight book"
                   />
-                  <div class="our-happy-students-box">
+                  <div class="our-happy-students-box position-absolute">
                     <p>Our Happy Students</p>
-                    <span>20k+ User</span>
-                    <div class="imgs-section">
+                    <span class="d-block">20k+ User</span>
+                    <div class="imgs-section mb-2">
                       <img
                         v-for="i in 4"
                         :key="i"
@@ -138,11 +146,11 @@
         </v-carousel>
 
         <!-- Carousel Controls -->
-        <div class="carousel-controls">
+        <div class="carousel-controls position-absolute d-flex ga-2">
           <div
             v-for="(slide, i) in slides"
             :key="i"
-            class="control-dot"
+            class="control-dot rounded-circle cursor-pointer"
             :class="{ active: currentSlide === i }"
             @click="currentSlide = i"
           />
@@ -199,8 +207,6 @@ watch(
 // Header Layout
 // -----------------------------
 .header-container {
-  position: relative;
-
   .subheading-text {
     color: $white-text-color;
 
@@ -215,17 +221,12 @@ watch(
 // -----------------------------
 .menu-section {
   @extend %sideWidth;
-  padding: 2rem 0;
-  justify-content: space-between;
 
   .menu-item {
     color: $menu-color-white;
   }
 
   .right-section-menu {
-    display: flex;
-    align-items: center;
-
     @include respond-to($breakpoint-md) {
       display: none !important;
     }
@@ -236,8 +237,6 @@ watch(
 // Main Content Layout
 // -----------------------------
 .main-row {
-  position: relative;
-
   @include respond-to($breakpoint-md) {
     flex-direction: column;
 
@@ -251,10 +250,8 @@ watch(
 // Right Section Styling
 // -----------------------------
 .right-section {
-  position: absolute;
   right: -15%;
   bottom: -34%;
-  height: 100%;
 
   // Background image of the person
   &::after {
@@ -274,7 +271,6 @@ watch(
   .student-learn-box {
     @extend %headerBoxes;
     width: fit-content;
-    position: absolute;
     left: -11%;
     top: -5%;
 
@@ -292,7 +288,6 @@ watch(
 
   // Flight Book Icon
   .flight-book-icon {
-    position: absolute;
     right: 25%;
     top: 15%;
   }
@@ -301,7 +296,6 @@ watch(
   .our-happy-students-box {
     @extend %headerBoxes;
     width: fit-content;
-    position: absolute;
     bottom: 10%;
     left: -15%;
 
@@ -313,8 +307,6 @@ watch(
       font-size: 11px;
       font-weight: 300;
       line-height: 12px;
-      margin-bottom: 1rem;
-      display: block;
     }
   }
 }
@@ -395,7 +387,6 @@ watch(
   line-height: 62px;
   letter-spacing: -0.04em;
   color: $white-text-color;
-  margin-top: 2rem;
 
   @include respond-to($breakpoint-md) {
     font-size: 30px;
@@ -407,11 +398,9 @@ watch(
 // Carousel Controls
 // -----------------------------
 .carousel-controls {
-  position: absolute;
   left: 30px;
   top: 50%;
   transform: translateY(-50%);
-  display: flex;
   flex-direction: column;
   gap: 10px;
 
@@ -427,9 +416,7 @@ watch(
 .control-dot {
   width: 8px;
   height: 8px;
-  border-radius: 50%;
   background: rgba(255, 255, 255, 0.5);
-  cursor: pointer;
 
   &.active {
     height: 28px;
@@ -460,13 +447,5 @@ watch(
 // -----------------------------
 .mob-bottom-menu {
   background: black;
-  display: flex;
-  flex-flow: column;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
 }
 </style>

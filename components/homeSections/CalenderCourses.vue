@@ -8,7 +8,7 @@
     </div>
 
     <!-- Courses slider section -->
-    <div class="slider-parent">
+    <div class="slider-parent position-relative pb-5 w-100">
       <div class="slider-section">
         <!-- Vuetify sheet wrapper -->
         <v-sheet class="my-8">
@@ -27,19 +27,21 @@
             >
               <!-- Course card -->
               <v-card
-                class="ma-4 position-relative course-card"
+                class="ma-4 position-relative overflow-hidden course-card"
                 @click="toggle"
               >
                 <!-- Card background image layer -->
                 <div
-                  class="card-background"
+                  class="card-background position-absolute top-0 left-0 w-100 h-100"
                   :style="{
                     backgroundImage: `url('/_nuxt/assets/images/${card.img}')`,
                   }"
                 />
 
                 <!-- Gradient overlay for better text visibility -->
-                <div class="card-overlay" />
+                <div
+                  class="card-overlay position-absolute top-0 left-0 w-100 h-100"
+                />
 
                 <!-- Card content container -->
                 <div
@@ -84,8 +86,10 @@
                       :class="{ 'red-bg': index % 2 !== 0 }"
                     >
                       <!-- Timer header with icon -->
-                      <div class="title-with-date">
-                        <p class="course-title">
+                      <div
+                        class="title-with-date d-flex justify-space-between align-center"
+                      >
+                        <p class="course-title d-flex align-center ga-2">
                           <img
                             :src="
                               index % 2 === 0
@@ -100,7 +104,9 @@
                         </p>
 
                         <!-- Countdown units display -->
-                        <div class="count-down-section">
+                        <div
+                          class="count-down-section d-flex justify-space-around gap-2"
+                        >
                           <div
                             v-for="(time, unit) in getCountdown(
                               card.countdownDate
@@ -115,7 +121,7 @@
                               {{ time }}
                             </div>
                             <div
-                              class="unit-text"
+                              class="unit-text text-center"
                               :class="{ 'text-white': index % 2 !== 0 }"
                             >
                               {{ unit }}
@@ -141,12 +147,14 @@
         </v-sheet>
 
         <!-- Navigation dots -->
-        <div class="carousel-controls">
-          <div class="dots">
+        <div
+          class="carousel-controls d-flex justify-center mt-4 position-relative"
+        >
+          <div class="dots d-flex ga-2">
             <span
               v-for="(card, index) in sliderCards"
               :key="index"
-              class="dot"
+              class="dot rounded-pill cursor-pointer"
               :class="{ active: model === index }"
               @click="model = index"
             />
@@ -169,16 +177,8 @@ const desc = ref(
   "Advance your career with leading finance and accounting certifications available online and offline. Flexible Learning Options for Every Career Stage."
 );
 
-/**
- * Current active slide index
- * Initialized with 0 to make the first slide active
- */
 const model = ref(0);
 
-/**
- * Array of course cards containing course information and countdown dates
- * Each course has an image, title, description, and target start date
- */
 const sliderCards = ref([
   {
     img: "Accounting.jpeg",
@@ -226,8 +226,8 @@ const intervalId = ref(null);
 
 /**
  * Calculates the remaining time until the target date
- * @param {Date} targetDate - The future date to countdown to
- * @returns {Object} Object containing days, hours, minutes, and seconds
+ * @param {Date} targetDate
+ * @returns {Object}
  */
 const getCountdown = (targetDate) => {
   const now = new Date().getTime();
@@ -257,21 +257,18 @@ const getCountdown = (targetDate) => {
 const getProgressValue = (targetDate) => {
   const now = new Date().getTime();
   const total = targetDate.getTime() - now;
-  const oneYear = 365 * 24 * 60 * 60 * 1000; // One year in milliseconds
-  return Math.min(Math.max(((oneYear - total) / oneYear) * 100, 0), 100); // Ensure value is between 0-100
+  const oneYear = 365 * 24 * 60 * 60 * 1000;
+  return Math.min(Math.max(((oneYear - total) / oneYear) * 100, 0), 100);
 };
 
 // Lifecycle hooks
 onMounted(() => {
-  // Start the countdown timer
   intervalId.value = setInterval(() => {
-    // Force reactivity update by creating a new array reference
     sliderCards.value = [...sliderCards.value];
   }, 1000);
 });
 
 onUnmounted(() => {
-  // Clean up the interval when component is destroyed
   if (intervalId.value) {
     clearInterval(intervalId.value);
   }
@@ -285,35 +282,21 @@ onUnmounted(() => {
 .second-bg {
   background-color: $background-color;
 
-  // Ensure v-sheet maintains same background
   .v-sheet {
     background-color: $background-color;
   }
 }
 
-/**
- * Main section container
- * Extends global width and padding mixins
- */
 .calender-courses-section {
   @extend %sideWidth;
   @extend %globalPadding;
 }
 
-/**
- * Slider container with relative positioning
- * Controls the overall slider layout
- */
 .slider-parent {
-  position: relative;
-  width: 100%;
-  padding-bottom: 3rem;
-
   .slider-section {
     .v-sheet {
       overflow: visible;
 
-      // Vuetify slide group customization
       .v-slide-group {
         &__content {
           display: flex;
@@ -324,13 +307,7 @@ onUnmounted(() => {
   }
 }
 
-/**
- * Individual course card styling
- * Responsive dimensions for different screen sizes
- */
 .course-card {
-  position: relative;
-  overflow: hidden;
   border-radius: $radius-20;
   height: 603px;
   width: 461px;
@@ -344,25 +321,13 @@ onUnmounted(() => {
 
 /**
  * Card background and overlay styling
- * Creates depth effect with gradient overlay
  */
 .card-background {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
   background-size: cover;
   background-position: center;
 }
 
 .card-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  // Gradient overlay for better text visibility
   background: linear-gradient(
     to bottom,
     rgba(0, 0, 0, 0) 0%,
@@ -373,7 +338,6 @@ onUnmounted(() => {
 
 /**
  * Counter section styling
- * Displays countdown timer with conditional background
  */
 .counter-section {
   padding: 1rem;
@@ -394,71 +358,38 @@ onUnmounted(() => {
  * Title and countdown display layout
  */
 .title-with-date {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  // Course title container
-  .course-title {
-    display: flex;
-    align-items: center;
-    gap: 0.2rem;
-  }
-
-  // Countdown timer layout
   .count-down-section {
-    display: flex;
-    justify-content: space-around;
-    gap: 1rem;
-
-    // Time number display
     .time-text {
       font-size: 20px;
       font-weight: 700;
       line-height: 20px;
     }
 
-    // Time unit label
     .unit-text {
       font-size: 12px;
       font-weight: 400;
       line-height: 14px;
-      text-align: center;
     }
   }
 }
 
 /**
  * Carousel navigation controls
- * Includes dots for slide indication
  */
 .carousel-controls {
-  display: flex;
-  justify-content: center;
-  margin-top: 2rem;
-  position: relative;
   left: 100px;
 
-  // Reset position on medium screens
   @include respond-to($breakpoint-md) {
     left: 0px;
   }
 
-  // Navigation dots container
   .dots {
-    display: flex;
-    gap: 0.5rem;
-
-    // Individual dot styling
     .dot {
       width: 10px;
       height: 10px;
-      border-radius: 50%;
       background-color: $dot-inactive;
-      cursor: pointer;
       transition: all 0.3s ease;
 
-      // Active dot state
       &.active {
         background-color: $main-color;
         width: 24px;
