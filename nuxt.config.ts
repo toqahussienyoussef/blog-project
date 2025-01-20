@@ -1,6 +1,24 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import vuetify from "vite-plugin-vuetify";
 export default defineNuxtConfig({
+  ssr: true,
+  nitro: {
+    devProxy: {
+      "/api": {
+        target: "http://16.171.22.84",
+        changeOrigin: true,
+        prependPath: true,
+      },
+    },
+  },
+
+  app: {
+    head: {
+      title: "My Nuxt App",
+    },
+  },
+
+  debug: process.env.NODE_ENV !== "production",
   runtimeConfig: {
     baseURL: "http://16.171.22.84",
     public: {
